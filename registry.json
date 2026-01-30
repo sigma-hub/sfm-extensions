@@ -3,13 +3,15 @@
   "extensions": [
     {
       "id": "sigma.hello-world",
+      "name": "Hello World",
+      "description": "A simple demo extension that adds a greeting to the context menu and shows notifications.",
+      "author": "Aleksey Hoffman",
       "repository": "https://github.com/sigma-hub/sfm-extension-hello-world",
       "official": true,
       "verified": true,
       "featured": true,
-      "versions": [
-        "1.0.0"
-      ],
+      "tags": ["demo", "hello-world", "example", "starter"],
+      "versions": ["1.0.0"],
       "latestVersion": "1.0.0"
     }
   ]
