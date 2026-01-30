@@ -116,6 +116,7 @@ Extensions can be browsed and installed directly from the Sigma File Manager app
       "name": "My Extension",
       "description": "What the extension does",
       "author": "Author Name",
+      "authorUrl": "https://github.com/author-username",
       "repository": "https://github.com/user/repo",
       "official": false,
       "verified": false,

@@ -6,6 +6,7 @@
       "name": "Hello World",
       "description": "A simple demo extension that adds a greeting to the context menu and shows notifications.",
       "author": "Aleksey Hoffman",
+      "authorUrl": "https://github.com/aleksey-hoffman",
       "repository": "https://github.com/sigma-hub/sfm-extension-hello-world",
       "official": true,
       "verified": true,
