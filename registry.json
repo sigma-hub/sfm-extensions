@@ -4,7 +4,7 @@
     {
       "id": "sigma.hello-world",
       "name": "Example",
-      "description": "An example extension demonstrating context menus, commands, notifications, dialogs, context API, built-in commands, and configurable settings.",
+      "description": "An example extension demonstrating context menus, commands, notifications, dialogs, context API, built-in commands, configurable settings, and progress reporting.",
       "author": "Aleksey Hoffman",
       "authorUrl": "https://github.com/aleksey-hoffman",
       "repository": "https://github.com/sigma-hub/sfm-extension-example",
@@ -23,9 +23,10 @@
         "1.4.1",
         "1.5.0",
         "1.5.1",
-        "1.6.0"
+        "1.6.0",
+        "1.7.0"
       ],
-      "latestVersion": "1.6.0"
+      "latestVersion": "1.7.0"
     }
   ]
 }
