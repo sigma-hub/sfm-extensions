@@ -11,7 +11,7 @@
       "official": true,
       "verified": true,
       "featured": true,
-      "tags": ["demo", "hello-world", "example", "starter"],
+      "categories": ["Demo", "Starter"],
       "versions": ["1.0.0"],
       "latestVersion": "1.0.0"
     }

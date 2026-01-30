@@ -121,7 +121,7 @@ Extensions can be browsed and installed directly from the Sigma File Manager app
       "official": false,
       "verified": false,
       "featured": false,
-      "tags": ["utility", "productivity"],
+      "categories": ["Utility", "Productivity"],
       "versions": ["1.0.0", "1.1.0"],
       "latestVersion": "1.1.0"
     }
