@@ -126,6 +126,54 @@ You can rename your extension and/or its GitHub repository without requiring any
 - The `previousName` field allows users to find your extension by its old name when searching
 - The previous name is displayed as "Previously known as 'Old Name'" in the extension details page
 
+### Icons
+
+Extensions can specify icons for context menu items and commands using [Lucide](https://lucide.dev/icons/) icon names. Use the PascalCase icon name as the `icon` property value.
+
+#### Context Menu with Icons
+
+```json
+{
+  "contributes": {
+    "contextMenu": [
+      {
+        "id": "copy-path",
+        "title": "Copy Path",
+        "icon": "Copy",
+        "group": "extensions",
+        "order": 1
+      },
+      {
+        "id": "show-info",
+        "title": "Show Info",
+        "icon": "Info",
+        "group": "extensions",
+        "order": 2
+      }
+    ]
+  }
+}
+```
+
+#### Commands with Icons
+
+```json
+{
+  "contributes": {
+    "commands": [
+      {
+        "id": "greet",
+        "title": "Greet User",
+        "icon": "Hand",
+        "description": "Shows a greeting message"
+      }
+    ]
+  }
+}
+```
+
+**Note:** Avoid using emoji in titles. Use Lucide icon names instead for a consistent UI experience.
+
 ### Extension Types
 
 | Type | Description |
