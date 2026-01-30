@@ -11,9 +11,15 @@
       "official": true,
       "verified": true,
       "featured": true,
-      "categories": ["Demo", "Starter"],
-      "versions": ["1.0.0", "1.1.0"],
-      "latestVersion": "1.1.0"
+      "categories": [
+        "Example"
+      ],
+      "versions": [
+        "1.0.0",
+        "1.1.0",
+        "1.2.0"
+      ],
+      "latestVersion": "1.2.0"
     }
   ]
 }
