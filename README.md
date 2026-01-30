@@ -113,10 +113,14 @@ Extensions can be browsed and installed directly from the Sigma File Manager app
   "extensions": [
     {
       "id": "publisher.extension-name",
+      "name": "My Extension",
+      "description": "What the extension does",
+      "author": "Author Name",
       "repository": "https://github.com/user/repo",
       "official": false,
       "verified": false,
       "featured": false,
+      "tags": ["utility", "productivity"],
       "versions": ["1.0.0", "1.1.0"],
       "latestVersion": "1.1.0"
     }
