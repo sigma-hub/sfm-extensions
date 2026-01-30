@@ -4,7 +4,7 @@
     {
       "id": "sigma.hello-world",
       "name": "Hello World",
-      "description": "A demo extension showcasing context menu, commands, notifications, dialogs, context API, and built-in commands.",
+      "description": "A demo extension showcasing context menu, commands, notifications, dialogs, context API, built-in commands, and configurable settings.",
       "author": "Aleksey Hoffman",
       "authorUrl": "https://github.com/aleksey-hoffman",
       "repository": "https://github.com/sigma-hub/sfm-extension-hello-world",
@@ -18,9 +18,10 @@
         "1.0.0",
         "1.1.0",
         "1.2.0",
-        "1.3.0"
+        "1.3.0",
+        "1.4.0"
       ],
-      "latestVersion": "1.3.0"
+      "latestVersion": "1.4.0"
     }
   ]
 }
