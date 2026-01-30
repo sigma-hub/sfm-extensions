@@ -3,11 +3,13 @@
   "extensions": [
     {
       "id": "sigma.hello-world",
-      "repository": "https://github.com/aleksey-hoffman/sfm-ext-hello-world",
+      "repository": "https://github.com/sigma-hub/sfm-extension-hello-world",
       "official": true,
       "verified": true,
       "featured": true,
-      "versions": ["1.0.0"],
+      "versions": [
+        "1.0.0"
+      ],
       "latestVersion": "1.0.0"
     }
   ]
