@@ -40,16 +40,17 @@
       "repository": "https://github.com/sigma-hub/sfm-extension-video-downloader",
       "official": true,
       "verified": true,
-      "featured": false,
+      "featured": true,
       "categories": [
         "Media"
       ],
       "versions": [
         "0.1.0",
         "0.1.1",
-        "0.1.2"
+        "0.1.2",
+        "0.1.3"
       ],
-      "latestVersion": "0.1.2"
+      "latestVersion": "0.1.3"
     }
   ]
 }
