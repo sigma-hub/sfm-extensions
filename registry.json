@@ -30,6 +30,24 @@
         "1.10.0"
       ],
       "latestVersion": "1.10.0"
+    },
+    {
+      "id": "sigma.video-downloader",
+      "name": "Video Downloader",
+      "description": "Download videos using yt-dlp with quality and format options.",
+      "author": "Aleksey Hoffman",
+      "authorUrl": "https://github.com/aleksey-hoffman",
+      "repository": "https://github.com/sigma-hub/sfm-extension-video-downloader",
+      "official": true,
+      "verified": true,
+      "featured": false,
+      "categories": [
+        "Media"
+      ],
+      "versions": [
+        "0.1.0"
+      ],
+      "latestVersion": "0.1.0"
     }
   ]
 }
