@@ -16,7 +16,7 @@
     {
       "id": "sigma.video-downloader",
       "name": "Video Downloader",
-      "description": "Download videos using yt-dlp with quality and format options.",
+      "description": "Download videos, playlists, audio, and streams from YouTube, Twitch, and thousands of other websites with quality and format options using the open-source tool yt-dlp.",
       "author": "Aleksey Hoffman",
       "authorUrl": "https://github.com/aleksey-hoffman",
       "repository": "https://github.com/sigma-hub/sfm-extension-video-downloader",
