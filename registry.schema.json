@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/sigma-hub/sfm-extensions/main/registry.schema.json",
+  "title": "Sigma File Manager Extensions Registry",
+  "description": "Schema for the official Sigma File Manager extensions registry. This is the source of truth for curated extension metadata displayed in the marketplace.",
+  "type": "object",
+  "required": ["schemaVersion", "extensions"],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "description": "Schema version for backward compatibility",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "extensions": {
+      "type": "array",
+      "description": "List of registered extensions",
+      "items": {
+        "$ref": "#/definitions/ExtensionEntry"
+      }
+    }
+  },
+  "definitions": {
+    "ExtensionEntry": {
+      "type": "object",
+      "description": "A registered extension entry with curated metadata",
+      "required": [
+        "id",
+        "name",
+        "description",
+        "author",
+        "authorUrl",
+        "repository",
+        "featured",
+        "categories"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique extension identifier in format 'publisher.extension-name'. Must match the id in the extension's manifest.json",
+          "pattern": "^[a-z0-9-]+\\.[a-z0-9-]+$"
+        },
+        "name": {
+          "type": "string",
+          "description": "Curated display name shown in the marketplace. Takes precedence over manifest name.",
+          "minLength": 1,
+          "maxLength": 50
+        },
+        "description": {
+          "type": "string",
+          "description": "Curated description shown in the marketplace. This is the only source of description (not in manifest).",
+          "minLength": 10,
+          "maxLength": 500
+        },
+        "author": {
+          "type": "string",
+          "description": "Verified author name. Takes precedence over manifest author.",
+          "minLength": 1
+        },
+        "authorUrl": {
+          "type": "string",
+          "description": "Verified author profile URL (typically GitHub profile)",
+          "format": "uri"
+        },
+        "repository": {
+          "type": "string",
+          "description": "GitHub repository URL. Used for fetching versions and downloading the extension.",
+          "format": "uri",
+          "pattern": "^https://github\\.com/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$"
+        },
+        "featured": {
+          "type": "boolean",
+          "description": "Whether this extension is featured in the marketplace. Featured extensions appear at the top."
+        },
+        "categories": {
+          "type": "array",
+          "description": "Curated categories for marketplace filtering. Takes precedence over manifest categories.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "File Management",
+              "Media",
+              "Security",
+              "Backup & Sync",
+              "Productivity",
+              "Search & Filter",
+              "Appearance",
+              "Integration",
+              "Developer Tools",
+              "Example",
+              "Other"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "tags": {
+          "type": "array",
+          "description": "Additional search keywords for discovery. Combined with manifest tags for search.",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

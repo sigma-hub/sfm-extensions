@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/sigma-hub/sfm-extensions/main/featured.schema.json",
+  "title": "Sigma File Manager Featured Extensions",
+  "description": "Schema for the featured extensions list. Extensions in this list are highlighted in the marketplace.",
+  "type": "object",
+  "required": ["schemaVersion", "featured"],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "description": "Schema version for backward compatibility",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "featured": {
+      "type": "array",
+      "description": "List of featured extension IDs in display order",
+      "items": {
+        "type": "string",
+        "description": "Extension ID that must exist in registry.json",
+        "pattern": "^[a-z0-9-]+\\.[a-z0-9-]+$"
+      },
+      "uniqueItems": true
+    }
+  }
+}
