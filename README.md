@@ -81,7 +81,14 @@ function deactivate() {
 module.exports = { activate, deactivate };
 ```
 
-### 5. Create a Release
+### 5. Test Locally
+
+In Sigma File Manager:
+1. Go to **Extensions** page
+2. Click **Install from folder**
+3. Select your extension folder
+
+### 6. Push your extension to Github
 
 ```bash
 git add .
@@ -89,14 +96,6 @@ git commit -m "Initial release"
 git tag v1.0.0
 git push origin main --tags
 ```
-
-### 6. Test Locally
-
-In Sigma File Manager:
-1. Go to **Extensions** page
-2. Click **Install from folder**
-3. Select your extension folder
-4. Enable the extension
 
 ---
 
@@ -116,26 +115,6 @@ The extension system uses two complementary sources of metadata:
 1. **Trust & Curation**: Fields that affect user trust (author, description, categories) are controlled by the registry
 2. **Developer Control**: Technical/runtime fields (permissions, entry point, version) are controlled by the manifest
 3. **Automatic Versioning**: Versions are fetched from GitHub release tags (`v*` pattern)
-
-### Field Ownership
-
-| Field | Registry | Manifest | Notes |
-|-------|:--------:|:--------:|-------|
-| `id` | ✅ | ✅ | Must match exactly |
-| `name` | ✅ | Optional | Registry takes precedence |
-| `description` | ✅ | ❌ | Registry-only |
-| `author` / `authorUrl` | ✅ | Optional | Registry takes precedence |
-| `repository` | ✅ | ✅ | Both need for different purposes |
-| `categories` | ✅ | Optional | Registry takes precedence |
-| `tags` | ✅ | Optional | Combined for search |
-| `featured` | ✅ | ❌ | Registry-only |
-| `version` | ❌ | ✅ | Manifest + GitHub tags |
-| `license` | ❌ | ✅ | Manifest-only |
-| `permissions` | ❌ | ✅ | Manifest-only |
-| `type`, `main` | ❌ | ✅ | Manifest-only |
-| `contributes` | ❌ | ✅ | Manifest-only |
-
----
 
 ## Extension Lifecycle
 

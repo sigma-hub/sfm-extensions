@@ -4,7 +4,10 @@
   "title": "Sigma File Manager Featured Extensions",
   "description": "Schema for the featured extensions list. Extensions in this list are highlighted in the marketplace.",
   "type": "object",
-  "required": ["schemaVersion", "featured"],
+  "required": [
+    "schemaVersion",
+    "featured"
+  ],
   "properties": {
     "schemaVersion": {
       "type": "string",

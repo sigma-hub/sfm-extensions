@@ -4,7 +4,10 @@
   "title": "Sigma File Manager Extensions Registry",
   "description": "Schema for the official Sigma File Manager extensions registry. This is the source of truth for curated extension metadata displayed in the marketplace.",
   "type": "object",
-  "required": ["schemaVersion", "extensions"],
+  "required": [
+    "schemaVersion",
+    "extensions"
+  ],
   "properties": {
     "schemaVersion": {
       "type": "string",
