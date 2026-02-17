@@ -9,7 +9,7 @@ This repository contains the official registry of extensions for [Sigma File Man
 - [Extension Architecture](#extension-architecture)
 - [Extension Lifecycle](#extension-lifecycle)
 - [Extension API Reference](#extension-api-reference)
-- [Manifest Reference](#manifest-reference)
+- [Package Reference](#package-reference)
 - [Submitting to Registry](#submitting-to-registry)
 - [Examples](#examples)
 
@@ -37,7 +37,7 @@ git init
 curl -O https://raw.githubusercontent.com/aleksey-hoffman/sigma-file-manager/v2/src/modules/extensions/sdk/sigma-extension.d.ts
 ```
 
-### 3. Create `manifest.json`
+### 3. Create `package.json`
 
 ```json
 {
@@ -101,19 +101,19 @@ git push origin main --tags
 
 ## Extension Architecture
 
-### Registry vs Manifest
+### Registry vs Package
 
 The extension system uses two complementary sources of metadata:
 
 | Source | Location | Controller | Purpose |
 |--------|----------|------------|---------|
 | **Registry** | This repo (`registry.json`) | SFM maintainers | Curated marketplace metadata |
-| **Manifest** | Extension repo (`manifest.json`) | Extension developer | Runtime configuration |
+| **Package** | Extension repo (`package.json`) | Extension developer | Runtime configuration |
 
 ### Design Principles
 
 1. **Trust & Curation**: Fields that affect user trust (author, description, categories) are controlled by the registry
-2. **Developer Control**: Technical/runtime fields (permissions, entry point, version) are controlled by the manifest
+2. **Developer Control**: Technical/runtime fields (permissions, entry point, version) are controlled by the package
 3. **Automatic Versioning**: Versions are fetched from GitHub release tags (`v*` pattern)
 
 ## Extension Lifecycle
@@ -480,7 +480,7 @@ await sigma.fs.downloadFile(
 
 Execute binaries and shell commands.
 
-> **Requires:** `shell` permission in manifest
+> **Requires:** `shell` permission in package
 
 ```javascript
 // Run a command and wait for result
@@ -546,9 +546,9 @@ await sigma.binary.remove('my-tool');
 
 ### `sigma.settings` - Extension Settings
 
-Access user-configurable settings defined in your manifest.
+Access user-configurable settings defined in your package.
 
-First, define settings in `manifest.json`:
+First, define settings in `package.json`:
 
 ```json
 {
@@ -650,7 +650,7 @@ const fullPath = sigma.platform.joinPath('folder', 'subfolder', 'file.txt');
 
 ---
 
-## Manifest Reference
+## Package Reference
 
 ### Required Fields
 
@@ -722,7 +722,7 @@ const fullPath = sigma.platform.joinPath('folder', 'subfolder', 'file.txt');
 ### Prerequisites
 
 1. Public GitHub repository
-2. Valid `manifest.json` in repository root
+2. Valid `package.json` in repository root
 3. At least one release tag (e.g., `v1.0.0`)
 4. README with usage instructions
 
@@ -1011,7 +1011,7 @@ Use these schemas in your editor for autocomplete and validation.
 - [Example Extension](https://github.com/sigma-hub/sfm-extension-example) - Full-featured demo
 - [Video Downloader](https://github.com/sigma-hub/sfm-extension-video-downloader) - Real-world example
 - [SDK Types](https://raw.githubusercontent.com/aleksey-hoffman/sigma-file-manager/v2/src/modules/extensions/sdk/sigma-extension.d.ts) - TypeScript definitions
-- [Manifest Schema](https://raw.githubusercontent.com/aleksey-hoffman/sigma-file-manager/v2/src/modules/extensions/sdk/manifest.schema.json) - JSON Schema
+- [Package Schema](https://raw.githubusercontent.com/aleksey-hoffman/sigma-file-manager/v2/src/modules/extensions/sdk/manifest.schema.json) - JSON Schema
 - [Lucide Icons](https://lucide.dev/icons/) - Icon reference
 
 ---

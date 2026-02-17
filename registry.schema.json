@@ -39,24 +39,24 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique extension identifier in format 'publisher.extension-name'. Must match the id in the extension's manifest.json",
+          "description": "Unique extension identifier in format 'publisher.extension-name'. Must match the id in the extension's package.json",
           "pattern": "^[a-z0-9-]+\\.[a-z0-9-]+$"
         },
         "name": {
           "type": "string",
-          "description": "Curated display name shown in the marketplace. Takes precedence over manifest name.",
+          "description": "Curated display name shown in the marketplace. Takes precedence over package name.",
           "minLength": 1,
           "maxLength": 50
         },
         "description": {
           "type": "string",
-          "description": "Curated description shown in the marketplace. This is the only source of description (not in manifest).",
+          "description": "Curated description shown in the marketplace. This is the only source of description (not in package).",
           "minLength": 10,
           "maxLength": 500
         },
         "author": {
           "type": "string",
-          "description": "Verified author name. Takes precedence over manifest author.",
+          "description": "Verified author name. Takes precedence over package author.",
           "minLength": 1
         },
         "authorUrl": {
@@ -76,7 +76,7 @@
         },
         "categories": {
           "type": "array",
-          "description": "Curated categories for marketplace filtering. Takes precedence over manifest categories.",
+          "description": "Curated categories for marketplace filtering. Takes precedence over package categories.",
           "items": {
             "type": "string",
             "enum": [
@@ -98,7 +98,7 @@
         },
         "tags": {
           "type": "array",
-          "description": "Additional search keywords for discovery. Combined with manifest tags for search.",
+          "description": "Additional search keywords for discovery. Combined with package tags for search.",
           "items": {
             "type": "string",
             "minLength": 1,
