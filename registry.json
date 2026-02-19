@@ -6,8 +6,8 @@
       "id": "sigma.hello-world",
       "name": "Example",
       "description": "An example extension demonstrating context menus, commands, notifications, dialogs, context API, built-in commands, configurable settings, progress reporting, and keybindings.",
-      "author": "Aleksey Hoffman",
-      "authorUrl": "https://github.com/aleksey-hoffman",
+      "publisher": "sigma-hub",
+      "publisherUrl": "https://github.com/sigma-hub",
       "repository": "https://github.com/sigma-hub/sfm-extension-example",
       "featured": true,
       "categories": [
@@ -24,8 +24,8 @@
       "id": "sigma.video-downloader",
       "name": "Video Downloader",
       "description": "Download videos, playlists, audio, and streams from YouTube, Twitch, and 1000+ other websites using the open-source tool yt-dlp.",
-      "author": "Aleksey Hoffman",
-      "authorUrl": "https://github.com/aleksey-hoffman",
+      "publisher": "sigma-hub",
+      "publisherUrl": "https://github.com/sigma-hub",
       "repository": "https://github.com/sigma-hub/sfm-extension-video-downloader",
       "featured": true,
       "categories": [

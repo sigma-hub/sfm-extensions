@@ -30,8 +30,8 @@
         "id",
         "name",
         "description",
-        "author",
-        "authorUrl",
+        "publisher",
+        "publisherUrl",
         "repository",
         "featured",
         "categories"
@@ -54,14 +54,14 @@
           "minLength": 10,
           "maxLength": 500
         },
-        "author": {
+        "publisher": {
           "type": "string",
-          "description": "Verified author name. Takes precedence over package author.",
+          "description": "Verified publisher name. Takes precedence over package publisher.",
           "minLength": 1
         },
-        "authorUrl": {
+        "publisherUrl": {
           "type": "string",
-          "description": "Verified author profile URL (typically GitHub profile)",
+          "description": "Verified publisher profile URL (typically GitHub profile)",
           "format": "uri"
         },
         "repository": {
@@ -105,6 +105,34 @@
             "maxLength": 30
           },
           "uniqueItems": true
+        },
+        "integrity": {
+          "type": "string",
+          "description": "SHA-256 integrity hash for extension archive downloads (hex or 'sha256:<hex>'). Used when no version-specific integrity exists.",
+          "pattern": "^(sha256:)?[a-fA-F0-9]{64}$"
+        },
+        "releaseMetadata": {
+          "type": "object",
+          "description": "Version-specific metadata keyed by semantic version (without the 'v' prefix).",
+          "patternProperties": {
+            "^\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9.]+)?$": {
+              "type": "object",
+              "properties": {
+                "integrity": {
+                  "type": "string",
+                  "description": "SHA-256 integrity hash for this version's release archive.",
+                  "pattern": "^(sha256:)?[a-fA-F0-9]{64}$"
+                },
+                "manifest": {
+                  "type": "string",
+                  "description": "Optional explicit manifest URL for this version.",
+                  "format": "uri"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
         }
       }
     }

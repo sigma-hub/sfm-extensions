@@ -9,6 +9,7 @@ This repository contains the official registry of extensions for [Sigma File Man
 - [Extension Architecture](#extension-architecture)
 - [Extension Lifecycle](#extension-lifecycle)
 - [Extension API Reference](#extension-api-reference)
+- [Best Practices](#best-practices)
 - [Package Reference](#package-reference)
 - [Submitting to Registry](#submitting-to-registry)
 - [Examples](#examples)
@@ -31,11 +32,13 @@ cd my-extension
 git init
 ```
 
-### 2. Download SDK Types (Optional, for TypeScript support)
+### 2. Install SDK Types (Recommended)
 
 ```bash
-curl -O https://raw.githubusercontent.com/aleksey-hoffman/sigma-file-manager/v2/src/modules/extensions/sdk/sigma-extension.d.ts
+npm install -D @sigma-file-manager/extensions-sdk
 ```
+
+If you cannot use npm in your setup, you can still download `sigma-extension.d.ts` directly.
 
 ### 3. Create `package.json`
 
@@ -112,7 +115,7 @@ The extension system uses two complementary sources of metadata:
 
 ### Design Principles
 
-1. **Trust & Curation**: Fields that affect user trust (author, description, categories) are controlled by the registry
+1. **Trust & Curation**: Fields that affect user trust (publisher, description, categories) are controlled by the registry
 2. **Developer Control**: Technical/runtime fields (permissions, entry point, version) are controlled by the package
 3. **Automatic Versioning**: Versions are fetched from GitHub release tags (`v*` pattern)
 
@@ -186,6 +189,32 @@ sigma.commands.registerCommand(
   async (...args) => {
     // Command handler
     return result; // Optional return value
+  }
+);
+
+// Register a command with inline arguments
+// The Command Palette will prompt the user for these values before execution
+sigma.commands.registerCommand(
+  {
+    id: 'download',
+    title: 'Download from URL',
+    arguments: [
+      { name: 'url', type: 'text', placeholder: 'https://...', required: true },
+      {
+        name: 'quality',
+        type: 'dropdown',
+        placeholder: 'Quality',
+        data: [
+          { title: 'High', value: 'high' },
+          { title: 'Medium', value: 'medium' },
+          { title: 'Low', value: 'low' }
+        ]
+      }
+    ]
+  },
+  async (args) => {
+    const { url, quality } = args && typeof args === 'object' ? args : {};
+    // args contains the values collected from the user
   }
 );
 
@@ -650,6 +679,313 @@ const fullPath = sigma.platform.joinPath('folder', 'subfolder', 'file.txt');
 
 ---
 
+## Best Practices
+
+### Handle Errors Gracefully
+
+Network requests can fail, files may be missing, and binaries can crash. Rather than letting unhandled exceptions disrupt the user's workflow, catch errors and show helpful notifications.
+
+```javascript
+async function activate() {
+  sigma.commands.registerCommand(
+    { id: 'fetch-data', title: 'Fetch Data' },
+    async () => {
+      try {
+        const data = await fetchFromAPI();
+        sigma.ui.showNotification({
+          title: 'Data loaded',
+          message: `Loaded ${data.length} items`,
+          type: 'success'
+        });
+      } catch (error) {
+        sigma.ui.showNotification({
+          title: 'Failed to fetch data',
+          message: error.message || 'Check your network connection and try again',
+          type: 'error'
+        });
+      }
+    }
+  );
+}
+
+module.exports = { activate };
+```
+
+**Key principles:**
+- Wrap all async operations in `try/catch` blocks
+- Show a notification with `type: 'error'` instead of silently failing
+- Provide actionable error messages so users know what went wrong
+- Use `sigma.storage` as a cache fallback when network requests fail:
+
+```javascript
+async function loadItems() {
+  try {
+    const freshData = await fetchFromAPI();
+    await sigma.storage.set('cachedItems', freshData);
+    return freshData;
+  } catch (error) {
+    const cached = await sigma.storage.get('cachedItems');
+    if (cached) {
+      sigma.ui.showNotification({
+        title: 'Using cached data',
+        message: 'Could not fetch latest data. Showing previously loaded results.',
+        type: 'warning'
+      });
+      return cached;
+    }
+    throw error;
+  }
+}
+```
+
+---
+
+### Handle Runtime Dependencies
+
+If your extension depends on external binaries (e.g., FFmpeg, yt-dlp), use `sigma.binary.ensureInstalled` to download them automatically. Always check availability before running commands, and show a clear message if a dependency is missing.
+
+```javascript
+const TOOL_ID = 'my-tool';
+
+async function getToolPath() {
+  const isInstalled = await sigma.binary.isInstalled(TOOL_ID);
+
+  if (isInstalled) {
+    return sigma.binary.getPath(TOOL_ID);
+  }
+
+  return sigma.binary.ensureInstalled(TOOL_ID, {
+    name: 'my-tool',
+    downloadUrl: (platform) => {
+      const ext = platform === 'windows' ? '.exe' : '';
+      return `https://example.com/releases/my-tool-${platform}${ext}`;
+    },
+    version: '2.1.0'
+  });
+}
+```
+
+**Key principles:**
+- Use `sigma.binary.ensureInstalled` for automatic download and setup
+- If only some commands require the binary, don't block activation — check availability inside the specific command handler
+- Use `sigma.platform.os` to provide platform-specific download URLs
+- Use `sigma.binary.getInfo` to check installed versions and offer updates
+
+---
+
+### Show Progress for Long Operations
+
+When a command performs work that takes more than a second or two, use `sigma.ui.withProgress` to show a progress indicator. This keeps users informed and lets them cancel if needed.
+
+```javascript
+sigma.commands.registerCommand(
+  { id: 'process-files', title: 'Process Files' },
+  async () => {
+    const files = sigma.context.getSelectedEntries().filter(entry => entry.isFile);
+
+    if (files.length === 0) {
+      sigma.ui.showNotification({
+        title: 'No files selected',
+        message: 'Select one or more files to process',
+        type: 'warning'
+      });
+      return;
+    }
+
+    await sigma.ui.withProgress(
+      { title: 'Processing files...', cancellable: true },
+      async (progress, token) => {
+        for (let index = 0; index < files.length; index++) {
+          if (token.isCancellationRequested) {
+            sigma.ui.showNotification({
+              title: 'Cancelled',
+              message: `Processed ${index} of ${files.length} files`,
+              type: 'info'
+            });
+            return;
+          }
+
+          progress.report({
+            message: files[index].name,
+            increment: 100 / files.length
+          });
+
+          await processFile(files[index]);
+        }
+      }
+    );
+
+    sigma.ui.showNotification({
+      title: 'Complete',
+      message: `Processed ${files.length} files`,
+      type: 'success'
+    });
+  }
+);
+```
+
+**Key principles:**
+- Use `cancellable: true` for any operation that takes more than a few seconds
+- Check `token.isCancellationRequested` at each iteration or step
+- Report progress with `message` (current item name) and `increment` (percentage points)
+- Show a summary notification when the operation completes or is cancelled
+
+---
+
+### Validate Input Before Acting
+
+When accepting user input (via command arguments, modals, or prompts), validate it before proceeding. Show clear feedback when validation fails.
+
+#### Command Arguments
+
+If a command declares `arguments` in the manifest, the Command Palette will prompt the user before execution. Always validate the received values:
+
+```javascript
+sigma.commands.registerCommand(
+  {
+    id: 'open-url',
+    title: 'Open URL',
+    arguments: [
+      { name: 'url', type: 'text', placeholder: 'https://...', required: true }
+    ]
+  },
+  async (args) => {
+    const providedArgs = args && typeof args === 'object' ? args : {};
+    const url = typeof providedArgs.url === 'string' ? providedArgs.url.trim() : '';
+
+    if (!url) {
+      sigma.ui.showNotification({
+        title: 'URL required',
+        message: 'Please provide a URL',
+        type: 'warning'
+      });
+      return;
+    }
+
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      sigma.ui.showNotification({
+        title: 'Invalid URL',
+        message: 'URL must start with http:// or https://',
+        type: 'error'
+      });
+      return;
+    }
+
+    await openUrl(url);
+  }
+);
+```
+
+#### Modal Forms
+
+For richer forms, validate in the `onSubmit` callback before processing:
+
+```javascript
+const modal = sigma.ui.createModal({
+  title: 'Create Project',
+  width: 400,
+  content: [
+    sigma.ui.input({ id: 'name', label: 'Project Name', placeholder: 'my-project' }),
+    sigma.ui.select({
+      id: 'template',
+      label: 'Template',
+      options: [
+        { value: 'basic', label: 'Basic' },
+        { value: 'advanced', label: 'Advanced' }
+      ],
+      value: 'basic'
+    })
+  ],
+  buttons: [
+    { id: 'cancel', label: 'Cancel', variant: 'secondary' },
+    { id: 'create', label: 'Create', variant: 'primary' }
+  ]
+});
+
+modal.onSubmit(async (values, buttonId) => {
+  if (buttonId !== 'create') return;
+
+  const name = typeof values.name === 'string' ? values.name.trim() : '';
+  if (!name) {
+    sigma.ui.showNotification({
+      title: 'Name required',
+      message: 'Enter a project name',
+      type: 'warning'
+    });
+    return;
+  }
+
+  if (!/^[a-z0-9-]+$/.test(name)) {
+    sigma.ui.showNotification({
+      title: 'Invalid name',
+      message: 'Use only lowercase letters, numbers, and hyphens',
+      type: 'error'
+    });
+    return;
+  }
+
+  await createProject(name, values.template);
+});
+```
+
+---
+
+### Write Platform-Aware Code
+
+If your extension behaves differently across operating systems, use `sigma.platform` to adapt. If your extension only works on certain platforms, declare the `platforms` field in `package.json`:
+
+```json
+{
+  "platforms": ["windows", "macos"]
+}
+```
+
+When omitted, the extension is considered cross-platform. The app will prevent installation on unsupported platforms and show a warning in the marketplace.
+
+For platform-specific logic at runtime:
+
+```javascript
+async function getConfigPath() {
+  if (sigma.platform.isWindows) {
+    return sigma.platform.joinPath(process.env.APPDATA, 'MyTool', 'config.json');
+  }
+  if (sigma.platform.isMacos) {
+    return sigma.platform.joinPath(process.env.HOME, 'Library', 'Application Support', 'MyTool', 'config.json');
+  }
+  return sigma.platform.joinPath(process.env.HOME, '.config', 'mytool', 'config.json');
+}
+```
+
+---
+
+### Clean Up Resources
+
+Registration methods (commands, context menu items, event listeners) return `Disposable` objects. These are automatically cleaned up when the extension is disabled or uninstalled, but if you create resources that need explicit cleanup (timers, event listeners, temporary files), do so in `deactivate`:
+
+```javascript
+let pollingInterval = null;
+
+async function activate() {
+  pollingInterval = setInterval(checkForUpdates, 60000);
+
+  sigma.commands.registerCommand(
+    { id: 'check-now', title: 'Check for Updates' },
+    checkForUpdates
+  );
+}
+
+function deactivate() {
+  if (pollingInterval) {
+    clearInterval(pollingInterval);
+    pollingInterval = null;
+  }
+}
+
+module.exports = { activate, deactivate };
+```
+
+---
+
 ## Package Reference
 
 ### Required Fields
@@ -685,11 +1021,12 @@ const fullPath = sigma.platform.joinPath('folder', 'subfolder', 'file.txt');
 | `permissions` | array | ✅ | Required permissions |
 | `engines` | object | ✅ | Version constraints |
 | `previousName` | string | | Previous name (for rename support) |
-| `author` | object | | `{ name, url? }` |
+| `publisher` | object | | `{ name, url? }` |
 | `icon` | string | | Path to icon file |
 | `banner` | string | | Path to banner image |
 | `categories` | array | | Category strings |
 | `tags` | array | | Search keywords |
+| `platforms` | array | | Supported OS: `windows`, `macos`, `linux` (omit for all) |
 | `activationEvents` | array | | When to activate |
 | `contributes` | object | | Static contributions |
 
@@ -736,12 +1073,17 @@ const fullPath = sigma.platform.joinPath('folder', 'subfolder', 'file.txt');
      "id": "your-username.extension-name",
      "name": "Your Extension",
      "description": "Clear description of what it does",
-     "author": "Your Name",
-     "authorUrl": "https://github.com/your-username",
+     "publisher": "Your Name",
+     "publisherUrl": "https://github.com/your-username",
      "repository": "https://github.com/your-username/your-extension",
      "featured": false,
      "categories": ["Productivity"],
-     "tags": ["keyword1", "keyword2"]
+     "tags": ["keyword1", "keyword2"],
+     "releaseMetadata": {
+       "1.0.0": {
+         "integrity": "sha256:<release-zip-sha256-hex>"
+       }
+     }
    }
    ```
 
@@ -754,6 +1096,8 @@ const fullPath = sigma.platform.joinPath('folder', 'subfolder', 'file.txt');
 - No malicious code or unauthorized data collection
 - Provide useful, working functionality
 - Include clear documentation
+- Provide `releaseMetadata.<version>.integrity` for every published version so installers can verify release archive integrity
+- Make sure `engines.sigmaFileManager` in the extension `package.json` matches the real compatibility range, because installs now enforce it
 
 ### Available Categories
 
