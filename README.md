@@ -27,6 +27,7 @@ The extension API documentation is maintained in the wiki:
 - [Extensions Wiki](https://github.com/sigma-hub/sfm-extensions/wiki)
 - [Getting Started](https://github.com/sigma-hub/sfm-extensions/wiki/Getting-Started)
 - [API Reference](https://github.com/sigma-hub/sfm-extensions/wiki/API-Reference)
+- [UI Reference](https://github.com/sigma-hub/sfm-extensions/wiki/UI-Reference)
 - [Manifest Reference](https://github.com/sigma-hub/sfm-extensions/wiki/Manifest-Reference)
 - [Best Practices](https://github.com/sigma-hub/sfm-extensions/wiki/Best-Practices)
 - [SDK Types](https://raw.githubusercontent.com/aleksey-hoffman/sigma-file-manager/v2/src/modules/extensions/sdk/sigma-extension.d.ts)
