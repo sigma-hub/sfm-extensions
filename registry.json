@@ -41,6 +41,24 @@
         "stream",
         "playlist"
       ]
+    },
+    {
+      "id": "sigma.excalidraw",
+      "name": "Excalidraw",
+      "description": "Open Excalidraw, a virtual whiteboard for sketching hand-drawn diagrams, in Sigma File Manager.",
+      "publisher": "sigma-hub",
+      "publisherUrl": "https://github.com/sigma-hub",
+      "repository": "https://github.com/sigma-hub/sfm-extension-excalidraw",
+      "featured": false,
+      "categories": [
+        "Productivity"
+      ],
+      "tags": [
+        "excalidraw",
+        "drawing",
+        "whiteboard",
+        "diagram"
+      ]
     }
   ]
 }
