@@ -59,6 +59,25 @@
         "whiteboard",
         "diagram"
       ]
+    },
+    {
+      "id": "sigma.media-converter",
+      "name": "Media Converter",
+      "description": "Convert videos and images to other formats directly from Sigma File Manager using FFmpeg.",
+      "publisher": "sigma-hub",
+      "publisherUrl": "https://github.com/sigma-hub",
+      "repository": "https://github.com/sigma-hub/sfm-extension-media-converter",
+      "featured": false,
+      "categories": [
+        "Media"
+      ],
+      "tags": [
+        "video",
+        "image",
+        "convert",
+        "ffmpeg",
+        "gif"
+      ]
     }
   ]
 }
