@@ -3,6 +3,8 @@
   "schemaVersion": "1.0.0",
   "featured": [
     "sigma.hello-world",
-    "sigma.video-downloader"
+    "sigma.video-downloader",
+    "sigma.excalidraw",
+    "sigma.media-converter"
   ]
 }

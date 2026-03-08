@@ -49,7 +49,7 @@
       "publisher": "sigma-hub",
       "publisherUrl": "https://github.com/sigma-hub",
       "repository": "https://github.com/sigma-hub/sfm-extension-excalidraw",
-      "featured": false,
+      "featured": true,
       "categories": [
         "Productivity"
       ],
@@ -67,7 +67,7 @@
       "publisher": "sigma-hub",
       "publisherUrl": "https://github.com/sigma-hub",
       "repository": "https://github.com/sigma-hub/sfm-extension-media-converter",
-      "featured": false,
+      "featured": true,
       "categories": [
         "Media"
       ],
