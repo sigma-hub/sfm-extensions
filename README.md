@@ -30,8 +30,8 @@ The extension API documentation is maintained in the wiki:
 - [UI Reference](https://github.com/sigma-hub/sfm-extensions/wiki/UI-Reference)
 - [Manifest Reference](https://github.com/sigma-hub/sfm-extensions/wiki/Manifest-Reference)
 - [Best Practices](https://github.com/sigma-hub/sfm-extensions/wiki/Best-Practices)
-- [SDK Types](https://raw.githubusercontent.com/aleksey-hoffman/sigma-file-manager/v2/src/modules/extensions/sdk/sigma-extension.d.ts)
-- [Package Schema](https://raw.githubusercontent.com/aleksey-hoffman/sigma-file-manager/v2/src/modules/extensions/sdk/manifest.schema.json)
+- [API Types](https://raw.githubusercontent.com/aleksey-hoffman/sigma-file-manager/main/packages/api/index.d.ts)
+- [Package Schema](https://raw.githubusercontent.com/aleksey-hoffman/sigma-file-manager/main/packages/api/manifest.schema.json)
 
 ---
 
@@ -45,25 +45,23 @@ cd my-extension
 git init
 ```
 
-### 2. Install SDK Types (Recommended)
+### 2. Install API Types
 
 ```bash
-npm install -D @sigma-file-manager/extensions-sdk
+npm install -D @sigma-file-manager/api
 ```
-
-If you cannot use npm in your setup, you can still download `sigma-extension.d.ts` directly.
 
 ### 3. Create `package.json`
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/aleksey-hoffman/sigma-file-manager/v2/src/modules/extensions/sdk/manifest.schema.json",
+  "$schema": "https://raw.githubusercontent.com/aleksey-hoffman/sigma-file-manager/main/packages/api/manifest.schema.json",
   "id": "your-username.my-extension",
   "name": "My Extension",
   "version": "1.0.0",
   "repository": "https://github.com/your-username/my-extension",
   "license": "MIT",
-  "type": "api",
+  "extensionType": "api",
   "main": "index.js",
   "permissions": ["commands", "notifications"],
   "engines": {
@@ -83,7 +81,7 @@ async function activate(context) {
     () => {
       sigma.ui.showNotification({
         title: 'Hello!',
-        message: 'My first extension is working!',
+        subtitle: 'My first extension is working!',
         type: 'success'
       });
     }
@@ -147,13 +145,13 @@ async function activate() {
         const data = await fetchFromAPI();
         sigma.ui.showNotification({
           title: 'Data loaded',
-          message: `Loaded ${data.length} items`,
+        subtitle: `Loaded ${data.length} items`,
           type: 'success'
         });
       } catch (error) {
         sigma.ui.showNotification({
           title: 'Failed to fetch data',
-          message: error.message || 'Check your network connection and try again',
+          subtitle: error.message || 'Check your network connection and try again',
           type: 'error'
         });
       }
@@ -181,7 +179,7 @@ async function loadItems() {
     if (cached) {
       sigma.ui.showNotification({
         title: 'Using cached data',
-        message: 'Could not fetch latest data. Showing previously loaded results.',
+        subtitle: 'Could not fetch latest data. Showing previously loaded results.',
         type: 'warning'
       });
       return cached;
