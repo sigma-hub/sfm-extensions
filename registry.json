@@ -3,24 +3,6 @@
   "schemaVersion": "1.0.0",
   "extensions": [
     {
-      "id": "sigma.hello-world",
-      "name": "Example",
-      "description": "An example extension demonstrating context menus, commands, notifications, dialogs, context API, built-in commands, configurable settings, progress reporting, and keybindings.",
-      "publisher": "sigma-hub",
-      "publisherUrl": "https://github.com/sigma-hub",
-      "repository": "https://github.com/sigma-hub/sfm-extension-example",
-      "featured": true,
-      "categories": [
-        "Example"
-      ],
-      "tags": [
-        "demo",
-        "sample",
-        "tutorial",
-        "starter"
-      ]
-    },
-    {
       "id": "sigma.video-downloader",
       "name": "Video Downloader",
       "description": "Download videos, playlists, audio, and streams from YouTube, Twitch, and 1000+ other websites using the open-source tool yt-dlp.",
